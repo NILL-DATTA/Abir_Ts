@@ -11,13 +11,18 @@ import {
     Typography,
     CircularProgress,
 } from "@mui/material";
-import Grid from "@mui/material/Grid"; // ✅ Correct Grid import
-
+import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 
-// 🔐 Validation Schema
+// ✅ Define form data interface
+interface LoginFormData {
+    email: string;
+    password: string;
+}
+
+// ✅ Validation schema
 const schema = yup.object().shape({
     email: yup
         .string()
@@ -34,17 +39,15 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
+    } = useForm<LoginFormData>({
         resolver: yupResolver(schema),
     });
 
     const { mutate, isPending } = useLoginMutation();
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword] = useState(false); // you can remove this if not toggling
     const router = useRouter();
 
-   
-
-    const onSubmit = async (formData: any) => {
+    const onSubmit = async (formData: LoginFormData) => {
         mutate(formData, {
             onSuccess: () => {
                 router.push("/cms/list");
@@ -163,7 +166,7 @@ const Login: React.FC = () => {
                         </Button>
 
                         <Typography align="center" sx={{ marginTop: 3 }}>
-                            Don't have an account?{" "}
+                            Don&apos;t have an account?{" "}
                             <Link
                                 href="/auth/registration"
                                 passHref
