@@ -8,15 +8,23 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { motion } from 'framer-motion';
 
+// Define a proper type for cart items
+type CartItem = {
+    _id: string;
+    name: string;
+    quantity: number;
+    price: number;
+};
+
 export default function CartPage() {
-    const [cart, setCart] = useState<any[]>([]);
+    const [cart, setCart] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            const savedCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const savedCart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
             setCart(savedCart);
             setLoading(false);
         }, 400);
@@ -111,7 +119,7 @@ export default function CartPage() {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {cart.map((item: any) => (
+                                                {cart.map((item: CartItem) => (
                                                     <TableRow key={item._id} hover>
                                                         <TableCell sx={{ color: '#fff' }}>{item.name}</TableCell>
                                                         <TableCell sx={{ color: '#fff' }}>{item.quantity}</TableCell>
