@@ -41,48 +41,34 @@ const OtpVerification: React.FC = () => {
         }
     };
 
-const onSubmit = () => {
-    if (!otpEmail) {
-        toast.error("Email not found in cookies.");
-        return;
-    }
-
-    const fullOtp = otp.join("");
-    if (fullOtp.length < 4) {
-        toast.error("Please enter the full 4-digit OTP.");
-        return;
-    }
-
-    mutate(
-        { email: otpEmail, otp: fullOtp },
-        {
-            onSuccess: () => {
-                router.push("/auth/login");
-            },
-            onError: (error: unknown) => {
-                let message = "Failed to verify OTP.";
-
-                if (
-                    typeof error === "object" &&
-                    error !== null &&
-                    "response" in error &&
-                    typeof (error as any).response === "object" &&
-                    "data" in (error as any).response &&
-                    typeof (error as any).response.data === "object" &&
-                    (error as any).response.data &&
-                    "message" in (error as any).response.data
-                ) {
-                    message = (error as any).response.data.message as string;
-                }
-
-                toast.error(message);
-            },
+    const onSubmit = () => {
+        if (!otpEmail) {
+            toast.error("Email not found in cookies.");
+            return;
         }
-    );
-};
+
+        const fullOtp = otp.join("");
+        if (fullOtp.length < 4) {
+            toast.error("Please enter the full 4-digit OTP.");
+            return;
+        }
+
+        mutate(
+            { email: otpEmail, otp: fullOtp },
+            {
+                onSuccess: () => {
+                    router.push("/auth/login");
+                },
+                onError: () => {
+                    // const message = error?.response?.data?.message || "Failed to verify OTP.";
+                    toast.error("Failed to verify OTP");
+                },
+            }
+        );
+    };
 
     return (
-         <Grid
+        <Grid
             container
             justifyContent="center"
             alignItems="center"
@@ -140,7 +126,7 @@ const onSubmit = () => {
                                 value={digit}
                                 inputRef={(el) => (inputRefs.current[index] = el)}
                                 onChange={(e) => handleChange(index, e.target.value)}
-                                onKeyDown={(e:any) => handleKeyDown(index, e)}
+                                onKeyDown={(e: any) => handleKeyDown(index, e)}
                                 inputProps={{
                                     maxLength: 1,
                                     style: {
