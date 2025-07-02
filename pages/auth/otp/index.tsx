@@ -126,7 +126,7 @@ const OtpVerification: React.FC = () => {
                                 value={digit}
                                 inputRef={(el) => (inputRefs.current[index] = el)}
                                 onChange={(e) => handleChange(index, e.target.value)}
-                                onKeyDown={(e: any) => handleKeyDown(index, e)}
+                                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(index, e)}
                                 inputProps={{
                                     maxLength: 1,
                                     style: {
