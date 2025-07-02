@@ -22,7 +22,7 @@ import {
     DialogContent,
     DialogActions,
     MenuItem,
-    Select
+    Select,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import EditIcon from '@mui/icons-material/Edit';
@@ -32,6 +32,15 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import { useRouter } from 'next/router';
 import { listQuery, useDeleteListMutation } from '@/customHooks/query/cms.query.hooks';
 import Swal from 'sweetalert2';
+
+// ✅ Define Product Interface
+interface Product {
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    price: number;
+}
 
 export default function List() {
     const router = useRouter();
@@ -62,9 +71,9 @@ export default function List() {
         }
     };
 
-    const handleAddToCart = (product: any) => {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        const existing = cart.find((item: any) => item._id === product._id);
+    const handleAddToCart = (product: Product) => {
+        const cart: (Product & { quantity: number })[] = JSON.parse(localStorage.getItem('cart') || '[]');
+        const existing = cart.find((item) => item._id === product._id);
 
         if (existing) {
             existing.quantity += 1;
@@ -96,13 +105,13 @@ export default function List() {
 
     const categories = useMemo(() => {
         if (!data?.product) return [];
-        const allCategories = data.product.map((item: any) => item.category);
+        const allCategories = data.product.map((item: Product) => item.category);
         return Array.from(new Set(allCategories));
     }, [data]);
 
     const filteredProducts = useMemo(() => {
         if (!data?.product) return [];
-        return data.product.filter((item: any) =>
+        return data.product.filter((item: Product) =>
             item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
             (selectedCategory ? item.category === selectedCategory : true)
         );
@@ -205,12 +214,12 @@ export default function List() {
                                             onClick={() => setSelectedCategory('')}
                                             size="small"
                                             sx={{
-                                                color: '#fff', textTransform: 'none',
+                                                color: '#fff',
+                                                textTransform: 'none',
                                                 background: 'linear-gradient(135deg, red , #2196f3)',
                                                 borderRadius: '8px',
                                                 fontWeight: 'bold',
                                                 px: 2,
-                                                
                                             }}
                                         >
                                             Clear Filter
@@ -226,19 +235,7 @@ export default function List() {
                                         animate={{ opacity: 1, scale: 1 }}
                                         transition={{ duration: 0.5 }}
                                     >
-                                        <CircularProgress
-                                            size={60}
-                                            thickness={5}
-                                            sx={{
-                                                color: '#00bcd4',
-                                                animation: 'pulse 1.5s infinite ease-in-out',
-                                                '@keyframes pulse': {
-                                                    '0%': { transform: 'scale(1)' },
-                                                    '50%': { transform: 'scale(1.1)' },
-                                                    '100%': { transform: 'scale(1)' },
-                                                },
-                                            }}
-                                        />
+                                        <CircularProgress size={60} thickness={5} sx={{ color: '#00bcd4' }} />
                                     </motion.div>
                                     <Typography mt={3} variant="subtitle1" color="gray">
                                         Loading products...
@@ -283,7 +280,7 @@ export default function List() {
                                         </TableHead>
                                         <TableBody>
                                             {filteredProducts.length > 0 ? (
-                                                filteredProducts.map((item: any) => (
+                                                filteredProducts.map((item: Product) => (
                                                     <TableRow key={item._id} hover>
                                                         <TableCell sx={{ color: '#fff' }}>{item.name}</TableCell>
                                                         <TableCell sx={{ color: '#fff' }}>{item.category}</TableCell>
@@ -362,8 +359,8 @@ export default function List() {
                         boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
                         color: '#fff',
                         minWidth: 320,
-                        px: 2
-                    }
+                        px: 2,
+                    },
                 }}
             >
                 <DialogTitle sx={{ fontWeight: 'bold', textAlign: 'center' }}>Select Category</DialogTitle>
@@ -377,13 +374,13 @@ export default function List() {
                             mt: 2,
                             color: '#fff',
                             '.MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(255,255,255,0.2)'
+                                borderColor: 'rgba(255,255,255,0.2)',
                             },
                             '& .MuiSvgIcon-root': {
-                                color: '#fff'
+                                color: '#fff',
                             },
                             backgroundColor: 'rgba(255,255,255,0.08)',
-                            borderRadius: 2
+                            borderRadius: 2,
                         }}
                     >
                         <MenuItem value="">All Categories</MenuItem>
@@ -409,8 +406,8 @@ export default function List() {
                             fontWeight: 'bold',
                             px: 4,
                             '&:hover': {
-                                background: 'linear-gradient(135deg, #00acc1, #1976d2)'
-                            }
+                                background: 'linear-gradient(135deg, #00acc1, #1976d2)',
+                            },
                         }}
                     >
                         Apply Filter
@@ -421,8 +418,8 @@ export default function List() {
                             textTransform: 'none',
                             color: '#ccc',
                             '&:hover': {
-                                backgroundColor: 'rgba(255,255,255,0.08)'
-                            }
+                                backgroundColor: 'rgba(255,255,255,0.08)',
+                            },
                         }}
                     >
                         Cancel

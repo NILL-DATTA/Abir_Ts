@@ -24,7 +24,7 @@ const Registration: React.FC = () => {
   } = useForm<registerProps>();
 
   const { mutate, isPending } = useRegisterMutation();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (formData: FieldValues) => {

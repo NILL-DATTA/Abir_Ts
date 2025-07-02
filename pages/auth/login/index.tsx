@@ -42,9 +42,7 @@ const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
-    const togglePasswordVisibility = () => {
-        setShowPassword((prev) => !prev);
-    };
+   
 
     const onSubmit = async (formData: any) => {
         mutate(formData, {
