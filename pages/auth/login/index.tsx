@@ -5,23 +5,19 @@ import * as yup from "yup";
 import { useState } from "react";
 import Link from "next/link";
 import {
-    Stack,
     TextField,
     Button,
     Box,
     Typography,
-    IconButton,
-    Grid,
     CircularProgress,
-    InputAdornment,
 } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Grid from "@mui/material/Grid"; // ✅ Correct Grid import
+
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 
-
+// 🔐 Validation Schema
 const schema = yup.object().shape({
     email: yup
         .string()
@@ -82,7 +78,9 @@ const Login: React.FC = () => {
                         component="form"
                         onSubmit={handleSubmit(onSubmit)}
                         sx={{
-                            width: "400px",
+                            width: "100%",
+                            maxWidth: "400px",
+                            margin: "0 auto",
                             backgroundColor: "rgba(255, 255, 255, 0.15)",
                             borderRadius: 3,
                             boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
@@ -114,7 +112,9 @@ const Login: React.FC = () => {
                                 "& .MuiOutlinedInput-root": {
                                     "& fieldset": { borderColor: "#fff" },
                                     "&:hover fieldset": { borderColor: "#00bcd4" },
-                                    "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#00bcd4",
+                                    },
                                 },
                                 input: { color: "#fff" },
                             }}
@@ -135,7 +135,9 @@ const Login: React.FC = () => {
                                 "& .MuiOutlinedInput-root": {
                                     "& fieldset": { borderColor: "#fff" },
                                     "&:hover fieldset": { borderColor: "#00bcd4" },
-                                    "&.Mui-focused fieldset": { borderColor: "#00bcd4" },
+                                    "&.Mui-focused fieldset": {
+                                        borderColor: "#00bcd4",
+                                    },
                                 },
                                 input: { color: "#fff" },
                             }}

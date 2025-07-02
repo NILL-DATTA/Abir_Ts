@@ -22,7 +22,7 @@ interface FormInputs {
   price: number;
   description: string;
   category: string;
-  
+
 }
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -35,11 +35,11 @@ const schema = yup.object().shape({
   category: yup.string().required("Category is required"),
 });
 
-const UpdateList: React.FC = () => {
+const UpdateList = () => {
   const router = useRouter();
   const { slug } = router.query;
   const { mutate, isPending } = useUpdateListMutation();
-  const { data, isError } = editQuery(slug as string);
+  const { data } = editQuery(slug as string);
 
   const {
     register,
