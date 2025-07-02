@@ -1,0 +1,16 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/api/hello": "pages/api/hello.js",
+  "/auth/login": "pages/auth/login.html",
+  "/auth/otp": "pages/auth/otp.html",
+  "/auth/registration": "pages/auth/registration.html",
+  "/auth/updatePassword": "pages/auth/updatePassword.html",
+  "/cms/addToCart": "pages/cms/addToCart.html",
+  "/cms/createList": "pages/cms/createList.html",
+  "/cms/details/[slug]": "pages/cms/details/[slug].html",
+  "/cms/list": "pages/cms/list.html",
+  "/": "pages/index.html",
+  "/_error": "pages/_error.js",
+  "/404": "pages/404.html"
+}

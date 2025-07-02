@@ -14,7 +14,7 @@ export default function Home() {
       </Head>
 
       <main style={{ ...styles.main, fontFamily: geist.style.fontFamily }}>
-        <div style={styles.container}>
+        <div >
           <h1 style={styles.title}>Welcome to Our Website</h1>
           <p style={styles.subtitle}>
             Discover amazing products, exclusive deals, and a shopping experience tailored just for you.

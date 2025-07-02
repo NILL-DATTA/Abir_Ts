@@ -66,7 +66,7 @@ export default function CartPage() {
   return (
     <Box sx={{ minHeight: '100vh', background: 'linear-gradient(to right, #141E30, #243B55)' }}>
       <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh' }}>
-        {/* <Grid item xs={12} md={11} lg={10}> */}
+  
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
             <Paper
               elevation={6}
@@ -192,10 +192,10 @@ export default function CartPage() {
               )}
             </Paper>
           </motion.div>
-        {/* </Grid> */}
+   
       </Grid>
 
-      {/* Delete Confirmation Modal */}
+
       <Dialog
         open={open}
         onClose={() => setOpen(false)}

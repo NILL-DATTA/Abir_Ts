@@ -120,7 +120,7 @@ export default function List() {
     return (
         <Box sx={{ minHeight: '100vh', background: "linear-gradient(to right, #141E30, #243B55)", px: 2 }}>
             <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: '100vh' }}>
-                <Grid item xs={12} md={11} lg={10}>
+                <Grid >
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                         <Paper
                             elevation={6}
