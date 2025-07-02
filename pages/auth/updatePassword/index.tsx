@@ -45,36 +45,38 @@ const UpdatePassword: React.FC = () => {
 
   const { mutate, isPending } = useUpdatePasswordMutation();
 
-  const onSubmit: SubmitHandler<PasswordForm> = (formData) => {
-    if (!userId) {
-      toast.error("UserId not found in cookies.");
-      return;
-    }
+const onSubmit: SubmitHandler<PasswordForm> = (formData) => {
+  if (!userId) {
+    toast.error("UserId not found in cookies.");
+    return;
+  }
 
-    const baseResponse: upDateResponse = {
-      user_id: userId,
-      password: formData.password,
-      message: "",
-      status: 1,
-    };
-
-    const requestData: updateProps = {
-      ...baseResponse,
-      data: baseResponse,
-    };
-
-    mutate(requestData, {
-      onSuccess: () => {
-        toast.success("Password updated successfully!");
-      },
-      onError: (error: APIError) => {
-        const message =
-          error?.response?.data?.message || "Failed to update password.";
-        toast.error(message);
-        console.error("Error:", error);
-      },
-    });
+  const baseResponse: upDateResponse = {
+    user_id: userId,
+    password: formData.password,
+    message: "",
+    status: 1,
   };
+
+  const requestData: updateProps = {
+    ...baseResponse,
+    data: baseResponse,
+  };
+
+  mutate(requestData, {
+    onSuccess: () => {
+      toast.success("Password updated successfully!");
+    },
+    onError: (error: unknown) => {
+      const apiError = error as APIError;
+      const message =
+        apiError?.response?.data?.message || "Failed to update password.";
+      toast.error(message);
+      console.error("Error:", error);
+    },
+  });
+};
+
 
   return (
     <Grid
