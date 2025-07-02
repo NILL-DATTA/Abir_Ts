@@ -41,31 +41,45 @@ const OtpVerification: React.FC = () => {
         }
     };
 
-    const onSubmit = () => {
-        if (!otpEmail) {
-            toast.error("Email not found in cookies.");
-            return;
-        }
+const onSubmit = () => {
+    if (!otpEmail) {
+        toast.error("Email not found in cookies.");
+        return;
+    }
 
-        const fullOtp = otp.join("");
-        if (fullOtp.length < 4) {
-            toast.error("Please enter the full 4-digit OTP.");
-            return;
-        }
+    const fullOtp = otp.join("");
+    if (fullOtp.length < 4) {
+        toast.error("Please enter the full 4-digit OTP.");
+        return;
+    }
 
-        mutate(
-            { email: otpEmail, otp: fullOtp },
-            {
-                onSuccess: () => {
-                    router.push("/auth/login");
-                },
-                onError: (error: any) => {
-                    const message = error?.response?.data?.message || "Failed to verify OTP.";
-                    toast.error(message);
-                },
-            }
-        );
-    };
+    mutate(
+        { email: otpEmail, otp: fullOtp },
+        {
+            onSuccess: () => {
+                router.push("/auth/login");
+            },
+            onError: (error: unknown) => {
+                let message = "Failed to verify OTP.";
+
+                if (
+                    typeof error === "object" &&
+                    error !== null &&
+                    "response" in error &&
+                    typeof (error as any).response === "object" &&
+                    "data" in (error as any).response &&
+                    typeof (error as any).response.data === "object" &&
+                    (error as any).response.data &&
+                    "message" in (error as any).response.data
+                ) {
+                    message = (error as any).response.data.message as string;
+                }
+
+                toast.error(message);
+            },
+        }
+    );
+};
 
     return (
          <Grid
