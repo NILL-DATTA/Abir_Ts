@@ -67,9 +67,10 @@ const UpdatePassword: React.FC = () => {
       onSuccess: () => {
         toast.success("Password updated successfully!");
       },
-      onError: (error: APIError) => {
+      onError: (error: unknown, _variables: unknown, _context: unknown) => {
         const message =
-          error?.response?.data?.message || "Failed to update password.";
+          (error as APIError)?.response?.data?.message ||
+          "Failed to update password.";
         toast.error(message);
         console.error("Error:", error);
       },
