@@ -9,6 +9,15 @@ import { updateProps, upDateResponse } from "@/typeScript/auth.interface";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+// ✅ Error type for API errors
+interface APIError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+}
+
 // ✅ Only the form input field
 type PasswordForm = {
   password: string;
@@ -42,7 +51,6 @@ const UpdatePassword: React.FC = () => {
       return;
     }
 
-    // ✅ Create upDateResponse object
     const baseResponse: upDateResponse = {
       user_id: userId,
       password: formData.password,
@@ -50,17 +58,16 @@ const UpdatePassword: React.FC = () => {
       status: 1,
     };
 
-    // ✅ Create updateProps with nested data
     const requestData: updateProps = {
       ...baseResponse,
-      data: baseResponse, // nested `data` field of same type
+      data: baseResponse,
     };
 
     mutate(requestData, {
       onSuccess: () => {
         toast.success("Password updated successfully!");
       },
-      onError: (error: any) => {
+      onError: (error: APIError) => {
         const message =
           error?.response?.data?.message || "Failed to update password.";
         toast.error(message);

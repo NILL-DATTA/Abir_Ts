@@ -68,7 +68,7 @@ const OtpVerification: React.FC = () => {
     };
 
     return (
-        <Grid
+         <Grid
             container
             justifyContent="center"
             alignItems="center"
@@ -126,7 +126,7 @@ const OtpVerification: React.FC = () => {
                                 value={digit}
                                 inputRef={(el) => (inputRefs.current[index] = el)}
                                 onChange={(e) => handleChange(index, e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(index, e as any)}
+                                onKeyDown={(e:any) => handleKeyDown(index, e)}
                                 inputProps={{
                                     maxLength: 1,
                                     style: {
