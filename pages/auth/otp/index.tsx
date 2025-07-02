@@ -59,18 +59,8 @@ const OtpVerification: React.FC = () => {
                 onSuccess: () => {
                     router.push("/auth/login");
                 },
-                onError: (error: unknown) => {
-                    // Safely type error as unknown, then try to extract message
-                    const message =
-                        (error &&
-                        typeof error === "object" &&
-                        "response" in error &&
-                        typeof (error as any).response === "object" &&
-                        "data" in (error as any).response &&
-                        typeof (error as any).response.data === "object" &&
-                        "message" in (error as any).response.data)
-                            ? (error as any).response.data.message
-                            : "Failed to verify OTP.";
+                onError: (error: any) => {
+                    const message = error?.response?.data?.message || "Failed to verify OTP.";
                     toast.error(message);
                 },
             }
@@ -136,7 +126,7 @@ const OtpVerification: React.FC = () => {
                                 value={digit}
                                 inputRef={(el) => (inputRefs.current[index] = el)}
                                 onChange={(e) => handleChange(index, e.target.value)}
-                                onKeyDown={(e) => handleKeyDown(index, e)}
+                                onKeyDown={(e:any) => handleKeyDown(index, e)}
                                 inputProps={{
                                     maxLength: 1,
                                     style: {
